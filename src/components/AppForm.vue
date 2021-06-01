@@ -185,7 +185,7 @@ export default {
         sex: '',
         group: [],
         doctor: '',
-        send: false,
+        send: 'Отправить СМС',
         index: '',
         country: '',
         state: '',
