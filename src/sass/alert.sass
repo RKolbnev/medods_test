@@ -1,0 +1,35 @@
+.alert
+  position: fixed
+  top: 20%
+  left: 50%
+  transform: translateX(-50%)
+  padding: 0.5rem 1rem
+  text-align: end
+  background-color: #fff
+  border: 3px solid $blue-grey
+  & p
+    text-align: center
+    margin-bottom: 1rem
+  & div#messages
+    text-align: left
+    & span
+      margin: 0.5rem 0
+      display: block
+  & div#succsess
+    display: flex
+    flex-direction: row
+    align-items: center
+    margin: 1.5rem 0
+    & img
+      width: 2rem
+      margin-right: 1rem
+    & p
+      margin: 0
+      padding: 0
+  & button
+    cursor: pointer
+    padding: 0.5rem 1rem
+    border: none
+    font-size: 1rem
+    color: #fff
+    background-color: $pink

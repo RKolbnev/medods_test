@@ -1,0 +1,50 @@
+.header
+  display: flex
+  flex-wrap: nowrap
+  align-items: center
+  justify-content: space-between
+  width: stretch
+  padding: 0 9vw
+  background-color: $blue
+  &-logo
+    display: flex
+    flex-wrap: nowrap
+    align-items: center
+    & img
+      width: 2.5rem
+    & span
+      text-transform: uppercase
+      font-size: 1.6rem
+      font-weight: 700
+      color: #fff
+  &-bar
+    display: flex
+    align-items: center
+    & span
+      color: #fff
+      font-size: 0.95rem
+      margin-left: 0.6rem
+    & button
+      display: none
+      width: 2rem
+      height: 1.5rem
+      background-color: transparent
+      border: none
+      border-bottom: 3px solid #fff
+      border-top: 3px solid #fff
+      &::before
+        content:  ''
+        display: block
+        margin-left: -6px
+        padding: 0 1rem
+        border-top: 3px solid #fff
+
+@media screen and ( max-width: 740px )
+  .header-bar
+    & span
+      display: none
+    & button
+      display: block
+
+
+
