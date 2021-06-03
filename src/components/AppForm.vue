@@ -200,7 +200,10 @@ export default {
       },
       mask: '7 (xxx) xxx-xx-xx',
       showMessage: false,
-      message: []
+      message: {
+        error: [],
+        clientData: []
+      }
     }
   },
   methods: {
@@ -235,21 +238,21 @@ export default {
       event.target.parentElement.parentElement.children.forEach(item => item.classList.remove('not__valid__check'))
     },
     checkForm (event) {
-      this.message.length = 0
+      this.message.error.length = 0
       const evt = event.target
       const requiredItems = ['surname', 'name', 'birthdate', 'group', 'city', 'document', 'issuedDate']
       for (let i = 0; i < event.target.length - 1; i++) {
         if (requiredItems.includes(evt[i].id) && this.formData[evt[i].id].length === 0) {
           evt[i].classList.add('not__valid__input')
-          this.message.push(evt[i].id)
+          this.message.error.push(evt[i].id)
         } else if (requiredItems.includes(evt[i].name) && this.formData[evt[i].name].length === 0) {
           evt[i].parentElement.classList.add('not__valid__check')
-          this.message.push(evt[i].name)
+          this.message.error.push(evt[i].name)
         } else if (evt[i].id === 'phone') {
           const res = this.formData.phone.replace(/_|-|\(|\)|\s/g, '').length < 11
           if (res) {
             evt[i].classList.add('not__valid__input')
-            this.message.push('phone')
+            this.message.error.push('phone')
           }
         }
       }
@@ -285,7 +288,11 @@ export default {
               break
           }
         }
-        console.log(`${title} : ${this.formData[key]}`)
+        if (this.formData[key].length !== 0) {
+          console.log(`${title} : ${this.formData[key]}`)
+          this.message.clientData.push([title, this.formData[key]])
+          if (this.message.error.length !== 0) this.message.clientData = []
+        }
       }
       console.groupEnd()
     }

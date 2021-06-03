@@ -1,12 +1,16 @@
 .alert
   position: fixed
-  top: 20%
+  z-index: 999
+  top: 30%
   left: 50%
   transform: translateX(-50%)
   padding: 0.5rem 1rem
   text-align: end
   background-color: #fff
   border: 3px solid $blue-grey
+  &__succsess
+    top: 10%
+    width: 70vw
   & p
     text-align: center
     margin-bottom: 1rem
@@ -17,15 +21,40 @@
       display: block
   & div#succsess
     display: flex
-    flex-direction: row
+    flex-direction: column
     align-items: center
+    justify-content: space-between
     margin: 1.5rem 0
-    & img
-      width: 2rem
-      margin-right: 1rem
     & p
-      margin: 0
-      padding: 0
+      margin: 0.5rem
+    & div.wrap
+      display: flex
+      flex-direction: row
+      width: 100%
+      & div.icon
+        height: fit-content
+        text-align: center
+        border: 2px solid $blue-grey
+        & img
+          width: 15vw
+          min-width: 10rem
+      & div.info
+        display: flex
+        flex-direction: column
+        width: stretch
+        margin-left: 0.5rem
+        text-align: left
+        & div
+          display: flex
+          flex-direction: row
+          & div.title
+            display: block
+            min-width: 40%
+            text-align: right
+            white-space: nowrap
+          & div:last-of-type
+            width: stretch
+            margin-left: 0.5rem
   & button
     cursor: pointer
     padding: 0.5rem 1rem
@@ -33,3 +62,24 @@
     font-size: 1rem
     color: #fff
     background-color: $pink
+
+
+@media screen and ( max-width: 770px )
+  .alert__succsess
+    & div#succsess
+      & div.wrap
+        & div.info
+          & div
+            display: none
+          & div:nth-child(2), & div:nth-child(1)
+            display: flex
+@media screen and ( max-width: 540px )
+  .alert__succsess
+    & div#succsess
+      & div.wrap
+        justify-content: center
+        & div.info
+          display: none
+
+
+
