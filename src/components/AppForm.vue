@@ -198,7 +198,10 @@ export default {
         issued: '',
         issuedDate: ''
       },
-      mask: '7 (xxx) xxx-xx-xx',
+      mask: {
+        phone: '7 (xxx) xxx-xx-xx',
+        birthdate: 'xx/xx/xxxx'
+      },
       showMessage: false,
       message: {
         error: [],
@@ -209,8 +212,8 @@ export default {
   methods: {
     changeProp (value, event) {
       event.target.classList.remove('not__valid__input')
-      if (value === 'phone') {
-        this.checkPhone(event)
+      if (value === 'phone' || value === 'birthdate') {
+        this.checkPhoneOrBirthdate(event, value)
       } else if (['surname', 'name', 'patronymic', 'country', 'state', 'city', 'street', 'issued'].includes(value)) {
         this.formData[value] = this.formData[value].replace(/\d/, '')
       } else if (value === 'index') {
@@ -220,18 +223,20 @@ export default {
     closeForm () {
       this.$emit('close')
     },
-    checkPhone (event) {
-      this.formData.phone = this.formData.phone.replace(/(\D|\s)/ig, '')
+    checkPhoneOrBirthdate (event, value) {
+      this.formData[value] = this.formData[value].replace(/(\D|\s)/ig, '')
+      const pattern = value === 'phone' ? '7 (xxx) xxx-xx-xx' : '__/__/____'
+
       if (!isNaN(+event.data)) {
         if (event.data && event.data !== ' ') {
-          this.mask = this.mask.replace(/x/, event.data)
-        } else {
-          const match = this.mask.match(/\d\D{0,}$/g)
-          const newMatch = match[0] === '7 (xxx) xxx-xx-xx' ? '7 (xxx) xxx-xx-xx' : match[0].replace(/\d/, 'x')
+          this.mask[value] = this.mask[value].replace(/x/, event.data)
+        } else if (event.data !== ' ') {
+          const match = this.mask[value].match(/\d\D{0,}$/g)
+          const newMatch = match[0] === pattern ? pattern : match[0].replace(/\d/, 'x')
           const rep = match[0].length > 1 ? match[0] : /\d$/
-          this.mask = this.mask.replace(rep, newMatch)
+          this.mask[value] = this.mask[value].replace(rep, newMatch)
         }
-        this.formData.phone = this.mask.replace(/x/g, '_')
+        this.formData[value] = this.mask[value].replace(/x/g, '_')
       }
     },
     deleteClass (event) {
@@ -240,7 +245,7 @@ export default {
     checkForm (event) {
       this.message.error.length = 0
       const evt = event.target
-      const requiredItems = ['surname', 'name', 'birthdate', 'group', 'city', 'document', 'issuedDate']
+      const requiredItems = ['surname', 'name', 'group', 'city', 'document', 'issuedDate']
       for (let i = 0; i < event.target.length - 1; i++) {
         if (requiredItems.includes(evt[i].id) && this.formData[evt[i].id].length === 0) {
           evt[i].classList.add('not__valid__input')
@@ -253,6 +258,12 @@ export default {
           if (res) {
             evt[i].classList.add('not__valid__input')
             this.message.error.push('phone')
+          }
+        } else if (evt[i].id === 'birthdate') {
+          const arr = this.formData.birthdate.split('/')
+          if (+arr[0] > 31 || +arr[1] > 12 || +arr[2] > new Date().getFullYear() || arr.length < 3) {
+            evt[i].classList.add('not__valid__input')
+            this.message.error.push('birthdate')
           }
         }
       }
